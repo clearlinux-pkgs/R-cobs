@@ -4,31 +4,41 @@
 #
 Name     : R-cobs
 Version  : 1.3.3
-Release  : 10
+Release  : 11
 URL      : https://cran.r-project.org/src/contrib/cobs_1.3-3.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/cobs_1.3-3.tar.gz
 Summary  : Constrained B-Splines (Sparse Matrix Based)
 Group    : Development/Tools
 License  : GPL-2.0+
 Requires: R-cobs-lib = %{version}-%{release}
-Requires: R-SparseM
-Requires: R-quantreg
+Requires: R-MatrixModels
+BuildRequires : R-MatrixModels
 BuildRequires : R-SparseM
 BuildRequires : R-quantreg
 BuildRequires : buildreq-R
 
 %description
-* NOTE:  *.Rout.save  +- ok
-** Cobs version 1.2-2, CRAN Date: 2011-04-25: they *.Rout.save are there and +- ok
-** Goal: Still get rid of several *.Rout.save  and use  all.equal() etc
-** [[0_pt-ex.R]] : first file with sessionInfo() etc:
-packageVersions of SparseM, quantreg, cobs and *no* .Rout.save file of course
-* Old Note (Apr 28, 2002):  Platform dependence
---------
-All the *.Rout-N-save files have been renamed from
-*.Rout.save
-because the result of these examples depend *very* much
-on the exact platform (compiler/machine) used -- unfortunately :
+Calling tree :
+~~~~~~~~~~~~
+scobs()
+|-> shat
+|   |
+|   \-> dn
+|-> qbsks
+|   |
+|---|-> getdim
+|   |
+|   v
+\-> drqssbc
+|   /
+|  /  (possibly calls itself once)
+|--
+|
+|-> l1.design
+|
+|-> l00.design
+|
+\-> .Fortran("drqssbc", ..)
 
 %package lib
 Summary: lib components for the R-cobs package.
@@ -46,10 +56,10 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1552728905
+export SOURCE_DATE_EPOCH=1556468178
 
 %install
-export SOURCE_DATE_EPOCH=1552728905
+export SOURCE_DATE_EPOCH=1556468178
 rm -rf %{buildroot}
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -85,7 +95,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
-R CMD check --no-manual --no-examples --no-codoc  cobs || :
+R CMD check --no-manual --no-examples --no-codoc cobs || :
 
 
 %files
