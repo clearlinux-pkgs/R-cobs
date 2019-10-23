@@ -4,7 +4,7 @@
 #
 Name     : R-cobs
 Version  : 1.3.3
-Release  : 16
+Release  : 17
 URL      : https://cran.r-project.org/src/contrib/cobs_1.3-3.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/cobs_1.3-3.tar.gz
 Summary  : Constrained B-Splines (Sparse Matrix Based)
@@ -16,9 +16,30 @@ Requires: R-quantreg
 BuildRequires : R-SparseM
 BuildRequires : R-quantreg
 BuildRequires : buildreq-R
+BuildRequires : util-linux
 
 %description
-Linear Programming and Sparse Matrices.
+Calling tree :
+~~~~~~~~~~~~
+scobs()
+|-> shat
+|   |
+|   \-> dn
+|-> qbsks
+|   |
+|---|-> getdim
+|   |
+|   v
+\-> drqssbc
+|   /
+|  /  (possibly calls itself once)
+|--
+|
+|-> l1.design
+|
+|-> l00.design
+|
+\-> .Fortran("drqssbc", ..)
 
 %package lib
 Summary: lib components for the R-cobs package.
@@ -36,10 +57,10 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569354839
+export SOURCE_DATE_EPOCH=1571811450
 
 %install
-export SOURCE_DATE_EPOCH=1569354839
+export SOURCE_DATE_EPOCH=1571811450
 rm -rf %{buildroot}
 export LANG=C.UTF-8
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
