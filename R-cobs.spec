@@ -4,7 +4,7 @@
 #
 Name     : R-cobs
 Version  : 1.3.5
-Release  : 44
+Release  : 45
 URL      : https://cran.r-project.org/src/contrib/cobs_1.3-5.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/cobs_1.3-5.tar.gz
 Summary  : Constrained B-Splines (Sparse Matrix Based)
